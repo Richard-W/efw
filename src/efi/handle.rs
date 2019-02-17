@@ -1,10 +1,10 @@
 use super::*;
 
 #[repr(transparent)]
-pub struct Handle(refi::Handle);
+pub struct Handle(bits::Handle);
 
 impl Handle {
-    pub fn new(handle: refi::Handle) -> Self {
+    pub fn new(handle: bits::Handle) -> Self {
         Handle(handle)
     }
 }

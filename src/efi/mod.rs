@@ -1,5 +1,7 @@
 use super::*;
 
+pub use r_efi::efi as bits;
+
 mod boot_services;
 pub use self::boot_services::*;
 

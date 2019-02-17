@@ -8,7 +8,7 @@ impl core::fmt::Write for StdOut {
         ucs2::encode_with(string, |ch| {
             let mut buffer: [u16; 2] = [0, 0];
             buffer[0] = ch;
-            if (con_out.output_string)(con_out as _, &buffer[0] as *const u16 as _) != refi::Status::SUCCESS {
+            if (con_out.output_string)(con_out as _, &buffer[0] as *const u16 as _) != efi::bits::Status::SUCCESS {
                 Err(ucs2::Error::InvalidData)
             }
             else {
