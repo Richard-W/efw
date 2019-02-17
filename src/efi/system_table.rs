@@ -19,14 +19,38 @@ impl SystemTable {
         }
     }
 
-    pub fn boot_services(&self) -> BootServices {
-        BootServices::new(self.0.boot_services)
+    pub fn console_in_handle(&self) -> Handle {
+        Handle::new(self.0.console_in_handle)
+    }
+
+    pub fn con_in(&self) -> protocols::SimpleTextInput {
+        unsafe {
+            protocols::SimpleTextInput::new(self.0.con_out as _)
+        }
+    }
+
+    pub fn console_out_handle(&self) -> Handle {
+        Handle::new(self.0.console_out_handle)
     }
 
     pub fn con_out(&self) ->  protocols::SimpleTextOutput {
         unsafe {
             protocols::SimpleTextOutput::new(self.0.con_out as _)
         }
+    }
+
+    pub fn standard_error_handle(&self) -> Handle {
+        Handle::new(self.0.standard_error_handle)
+    }
+
+    pub fn std_err(&self) -> protocols::SimpleTextOutput {
+        unsafe {
+            protocols::SimpleTextOutput::new(self.0.std_err as _)
+        }
+    }
+
+    pub fn boot_services(&self) -> BootServices {
+        BootServices::new(self.0.boot_services)
     }
 
     pub fn bits(&mut self) -> *mut bits::SystemTable {
