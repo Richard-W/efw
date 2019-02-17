@@ -19,7 +19,6 @@ pub use self::console::*;
 pub mod efi;
 
 static HANDLE: LateStatic<efi::Handle> = LateStatic::new();
-static mut SYSTEM_TABLE: LateStatic<efi::SystemTable> = LateStatic::new();
 
 #[global_allocator]
 static ALLOCATOR: allocator::Allocator = allocator::Allocator;
@@ -32,7 +31,7 @@ extern {
 #[no_mangle]
 unsafe extern fn efi_main(handle: efi::bits::Handle, system_table: &'static mut efi::bits::SystemTable) -> efi::bits::Status {
     LateStatic::assign(&HANDLE, efi::Handle::new(handle));
-    LateStatic::assign(&SYSTEM_TABLE, efi::SystemTable::new(system_table));
+    efi::SystemTable::init(system_table);
 
     efw_main();
 
