@@ -8,3 +8,6 @@ license = "MIT"
 repository = "https://github.com/richard-w/efw"
 
 [dependencies]
+late-static = "0.3"
+r-efi = { git="https://github.com/richard-w/r-efi", branch="file-protocols" }
+ucs2 = "0.1"

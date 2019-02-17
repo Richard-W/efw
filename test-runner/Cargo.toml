@@ -1,0 +1,8 @@
+[package]
+name = "test-runner"
+version = "0.1.0"
+authors = ["Richard Wiedenhöft <richard@wiedenhoeft.xyz>"]
+edition = "2018"
+
+[dependencies]
+efw = { path = ".." }
