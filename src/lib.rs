@@ -1,7 +1,9 @@
 #![no_std]
+#![feature(alloc)]
 #![feature(alloc_error_handler)]
 #![feature(panic_info_message)]
 
+extern crate alloc;
 extern crate late_static;
 extern crate r_efi;
 extern crate ucs2;
@@ -14,8 +16,9 @@ mod result;
 use late_static::LateStatic;
 use r_efi::efi as refi;
 
-pub use self::result::*;
+pub use alloc::*;
 pub use self::console::*;
+pub use self::result::*;
 
 static HANDLE: LateStatic<efi::Handle> = LateStatic::new();
 static mut SYSTEM_TABLE: LateStatic<efi::SystemTable> = LateStatic::new();

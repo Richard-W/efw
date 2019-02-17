@@ -1,10 +1,7 @@
 #![no_std]
 #![no_main]
-#![feature(alloc)]
 
 #[macro_use] extern crate efw;
-
-#[macro_use] extern crate alloc;
 
 #[no_mangle]
 fn efw_main() {
