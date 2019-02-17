@@ -4,7 +4,7 @@ struct StdOut;
 
 impl core::fmt::Write for StdOut {
     fn write_str(&mut self, string: &str) -> core::fmt::Result {
-        let con_out = unsafe { &mut *(*SYSTEM_TABLE.native()).con_out };
+        let con_out = unsafe { &mut *(*SYSTEM_TABLE.bits()).con_out };
         ucs2::encode_with(string, |ch| {
             let mut buffer: [u16; 2] = [0, 0];
             buffer[0] = ch;
