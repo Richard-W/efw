@@ -10,13 +10,11 @@ extern crate ucs2;
 
 mod allocator;
 #[macro_use] mod console;
-mod result;
 
 use late_static::LateStatic;
 
 pub use alloc::*;
 pub use self::console::*;
-pub use self::result::*;
 
 pub mod efi;
 

@@ -10,5 +10,8 @@ pub use self::boot_services::*;
 mod handle;
 pub use self::handle::*;
 
+mod result;
+pub use self::result::*;
+
 mod system_table;
 pub use self::system_table::*;
