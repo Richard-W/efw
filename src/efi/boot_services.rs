@@ -16,4 +16,28 @@ impl BootServices {
     pub unsafe fn free_pool(&self, buffer: *mut u8) -> Result<()> {
         status_to_result(((*self.0).free_pool)(buffer as _))
     }
+
+    pub unsafe fn locate_handle(&self, search_type: bits::LocateSearchType, protocol: *mut bits::Guid, search_key: *mut core::ffi::c_void) -> Result<Vec<Handle>> {
+        // Find out needed buffer size.
+        let mut buffer_size = 0;
+        let null_status = ((*self.0).locate_handle)(search_type, protocol, search_key, &mut buffer_size as _, 0 as _);
+        if null_status == bits::Status::SUCCESS {
+            return Ok(vec![]);
+        }
+
+        // Create buffer.
+        let mut vector: Vec<Handle> = Vec::new();
+        vector.resize(buffer_size / core::mem::size_of::<Handle>(), Handle::new(0 as _));
+        let buffer = &mut vector.as_mut_slice()[0] as *mut Handle as *mut bits::Handle;
+
+        // Perform the search.
+        status_to_result(((*self.0).locate_handle)(search_type, protocol, search_key, &mut buffer_size as _, buffer))?;
+        Ok(vector)
+    }
+
+    pub unsafe fn handle_protocol(&self, handle: Handle, protocol: *mut bits::Guid) -> Result<*mut core::ffi::c_void> {
+        let mut interface: *mut core::ffi::c_void = 0 as _;
+        status_to_result(((*self.0).handle_protocol)(handle.value() as bits::Handle, protocol, &mut interface as _))?;
+        Ok(interface)
+    }
 }

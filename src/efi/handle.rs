@@ -19,6 +19,10 @@ impl Handle {
     pub fn new(handle: bits::Handle) -> Self {
         Handle(handle)
     }
+
+    pub fn value(&self) -> usize {
+        self.0 as _
+    }
 }
 
 unsafe impl core::marker::Send for Handle {}

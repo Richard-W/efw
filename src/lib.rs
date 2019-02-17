@@ -11,6 +11,8 @@ extern crate ucs2;
 mod allocator;
 #[macro_use] mod console;
 
+use alloc::prelude::*;
+
 pub use alloc::*;
 pub use self::console::*;
 
