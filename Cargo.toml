@@ -1,0 +1,10 @@
+[package]
+name = "efw"
+description = "Framework for writing UEFI applications"
+version = "0.0.0"
+authors = ["Richard Wiedenhöft <richard@wiedenhoeft.xyz>"]
+edition = "2018"
+license = "MIT"
+repository = "https://github.com/richard-w/efw"
+
+[dependencies]
