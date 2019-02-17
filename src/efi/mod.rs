@@ -10,6 +10,11 @@ pub use self::boot_services::*;
 mod handle;
 pub use self::handle::*;
 
+mod protocol;
+pub use self::protocol::*;
+
+pub mod protocols;
+
 mod result;
 pub use self::result::*;
 

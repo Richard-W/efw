@@ -23,6 +23,12 @@ impl SystemTable {
         BootServices::new(self.0.boot_services)
     }
 
+    pub fn con_out(&self) ->  protocols::SimpleTextOutput {
+        unsafe {
+            protocols::SimpleTextOutput::new(self.0.con_out as _)
+        }
+    }
+
     pub fn bits(&mut self) -> *mut bits::SystemTable {
         self.0 as _
     }

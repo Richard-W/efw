@@ -4,16 +4,11 @@ struct StdOut;
 
 impl core::fmt::Write for StdOut {
     fn write_str(&mut self, string: &str) -> core::fmt::Result {
-        let con_out = unsafe { &mut *(*efi::SystemTable::get().bits()).con_out };
+        let mut con_out = efi::SystemTable::get().con_out();
         ucs2::encode_with(string, |ch| {
             let mut buffer: [u16; 2] = [0, 0];
             buffer[0] = ch;
-            if (con_out.output_string)(con_out as _, &buffer[0] as *const u16 as _) != efi::bits::Status::SUCCESS {
-                Err(ucs2::Error::InvalidData)
-            }
-            else {
-                Ok(())
-            }
+            con_out.output_string(&buffer[0] as *const u16 as _).map_err(|_| ucs2::Error::InvalidData)
         }).unwrap();
         Ok(())
     }
