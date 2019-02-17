@@ -11,14 +11,10 @@ extern crate ucs2;
 mod allocator;
 #[macro_use] mod console;
 
-use late_static::LateStatic;
-
 pub use alloc::*;
 pub use self::console::*;
 
 pub mod efi;
-
-static HANDLE: LateStatic<efi::Handle> = LateStatic::new();
 
 #[global_allocator]
 static ALLOCATOR: allocator::Allocator = allocator::Allocator;
@@ -30,7 +26,7 @@ extern {
 
 #[no_mangle]
 unsafe extern fn efi_main(handle: efi::bits::Handle, system_table: &'static mut efi::bits::SystemTable) -> efi::bits::Status {
-    LateStatic::assign(&HANDLE, efi::Handle::new(handle));
+    efi::Handle::init_self_handle(handle);
     efi::SystemTable::init(system_table);
 
     efw_main();

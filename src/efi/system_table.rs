@@ -1,4 +1,5 @@
 use super::*;
+use late_static::LateStatic;
 
 #[repr(transparent)]
 pub struct SystemTable(&'static mut bits::SystemTable);
