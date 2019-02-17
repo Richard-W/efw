@@ -28,9 +28,8 @@ extern {
     fn efw_main();
 }
 
-#[doc(hidden)]
 #[no_mangle]
-pub unsafe extern fn efi_main(handle: refi::Handle, system_table: &'static mut refi::SystemTable) -> refi::Status {
+unsafe extern fn efi_main(handle: refi::Handle, system_table: &'static mut refi::SystemTable) -> refi::Status {
     LateStatic::assign(&HANDLE, efi::Handle::new(handle));
     LateStatic::assign(&SYSTEM_TABLE, efi::SystemTable::new(system_table));
 
