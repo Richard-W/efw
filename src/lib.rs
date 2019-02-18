@@ -27,7 +27,7 @@ extern {
 }
 
 #[no_mangle]
-unsafe extern fn efi_main(handle: efi::bits::Handle, system_table: &'static mut efi::bits::SystemTable) -> efi::bits::Status {
+unsafe extern fn efi_main(handle: efi::bits::Handle, system_table: *mut efi::bits::SystemTable) -> efi::bits::Status {
     efi::Handle::init_self_handle(handle);
     efi::SystemTable::init(system_table);
 
