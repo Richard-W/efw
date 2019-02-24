@@ -19,6 +19,18 @@ impl BootServices {
         status_to_result(((*self.0).free_pool)(buffer as _))
     }
 
+    /// Allocate `num` consecutive pages of physical memory.
+    pub unsafe fn allocate_pages(&self, allocate_type: bits::AllocateType, memory_type: bits::MemoryType, num: usize) -> Result<*mut u8> {
+        let mut result: bits::PhysicalAddress = 0;
+        status_to_result(((*self.0).allocate_pages)(allocate_type, memory_type, num, &mut result as _))?;
+        Ok(result as _)
+    }
+
+    /// Free `num` consecutive pages of physical memory.
+    pub unsafe fn free_pages(&self, memory: *mut u8, num: usize) -> Result<()> {
+        status_to_result(((*self.0).free_pages)(memory as _, num))
+    }
+
     /// Get an array of handles that support a specific protocol.
     pub unsafe fn locate_handle(&self, search_type: bits::LocateSearchType, protocol: *mut bits::Guid, search_key: *mut core::ffi::c_void) -> Result<Vec<Handle>> {
         // Find out needed buffer size.
