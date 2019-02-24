@@ -8,7 +8,9 @@ impl core::fmt::Write for StdOut {
         ucs2::encode_with(string, |ch| {
             let mut buffer: [u16; 2] = [0, 0];
             buffer[0] = ch;
-            con_out.output_string(&buffer[0] as *const u16 as _).map_err(|_| ucs2::Error::InvalidData)
+            unsafe {
+                con_out.output_string(&buffer[0] as *const u16 as _).map_err(|_| ucs2::Error::InvalidData)
+            }
         }).unwrap();
         Ok(())
     }
