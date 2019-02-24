@@ -9,3 +9,9 @@ impl Protocol for SimpleTextInput {
         SimpleTextInput(&mut *(ptr as *mut bits::protocols::simple_text_input::Protocol))
     }
 }
+
+impl SimpleTextInput {
+    pub fn bits(&mut self) -> *mut bits::protocols::simple_text_input::Protocol {
+        self.0
+    }
+}

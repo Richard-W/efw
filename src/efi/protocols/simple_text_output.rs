@@ -11,6 +11,10 @@ impl Protocol for SimpleTextOutput {
 }
 
 impl SimpleTextOutput {
+    pub fn bits(&mut self) -> *mut bits::protocols::simple_text_output::Protocol {
+        self.0
+    }
+
     pub unsafe fn output_string(&mut self, string: *mut u16) -> Result<()> {
         status_to_result(((*self.0).output_string)(self.0 as _, string))
     }
