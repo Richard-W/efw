@@ -81,6 +81,11 @@ impl BootServices {
         status_to_result(((*self.0).handle_protocol)(handle.value() as bits::Handle, protocol, &mut interface as _))?;
         Ok(interface)
     }
+
+    /// Exit the boot services and take control of the machine
+    pub unsafe fn exit_boot_services(&self, map_key: usize) -> Result<()> {
+        status_to_result(((*self.0).exit_boot_services)(Handle::get_self_handle().value() as _, map_key))
+    }
 }
 
 /// UEFI Memory Map container.
