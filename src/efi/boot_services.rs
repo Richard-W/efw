@@ -39,6 +39,9 @@ impl BootServices {
         let mut desc_ver: u32 = 0;
         ((*self.0).get_memory_map)(&mut buffer_size as _, 0 as _, &mut map_key as _, &mut desc_size as _, &mut desc_ver as _);
 
+        // Account for the additional allocation
+        buffer_size += desc_size;
+
         let mut buffer = Vec::new();
         buffer.resize(buffer_size, 0);
 
