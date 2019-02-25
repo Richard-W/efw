@@ -101,28 +101,68 @@ impl MemoryMap {
         self.map_key
     }
 
-    /// Iterate through the map entries.
-    pub fn iter(&mut self) -> MemoryMapIterator {
-        MemoryMapIterator::new(self)
+    /// Get a constant iterator of memory map entries.
+    pub fn iter(&self) -> ConstMemoryMapIterator {
+        ConstMemoryMapIterator::new(self)
+    }
+
+    /// Get a mutable iterator of memory map entries.
+    pub fn iter_mut(&mut self) -> MutMemoryMapIterator {
+        MutMemoryMapIterator::new(self)
     }
 }
 
-/// Iterator type for the `MemoryMap` struct.
-pub struct MemoryMapIterator<'a> {
-    mmap: &'a mut MemoryMap,
+/// Constant iterator type for the `MemoryMap` struct.
+pub struct ConstMemoryMapIterator<'a> {
+    mmap: &'a MemoryMap,
     position: usize,
 }
 
-impl<'a> MemoryMapIterator<'a> {
-    pub(crate) fn new(mmap: &'a mut MemoryMap) -> Self {
-        MemoryMapIterator {
+impl<'a> ConstMemoryMapIterator<'a> {
+    pub(crate) fn new(mmap: &'a MemoryMap) -> Self {
+        ConstMemoryMapIterator {
             mmap: mmap,
             position: 0,
         }
     }
 }
 
-impl<'a> core::iter::Iterator for MemoryMapIterator<'a> {
+impl<'a> core::iter::Iterator for ConstMemoryMapIterator<'a> {
+    type Item = &'a bits::MemoryDescriptor;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        let item_offset = self.mmap.desc_size * self.position;
+        let item_end = item_offset + self.mmap.desc_size;
+        if item_end >= self.mmap.buffer.len() {
+            None
+        }
+        else {
+            let ptr: *const u8 = &self.mmap.buffer.as_slice()[0] as _;
+            unsafe {
+                let desc_ptr = ptr.offset(item_offset as isize) as *const bits::MemoryDescriptor;
+                self.position += 1;
+                Some(&*desc_ptr)
+            }
+        }
+    }
+}
+
+/// Mutable iterator type for the `MemoryMap` struct.
+pub struct MutMemoryMapIterator<'a> {
+    mmap: &'a mut MemoryMap,
+    position: usize,
+}
+
+impl<'a> MutMemoryMapIterator<'a> {
+    pub(crate) fn new(mmap: &'a mut MemoryMap) -> Self {
+        MutMemoryMapIterator {
+            mmap: mmap,
+            position: 0,
+        }
+    }
+}
+
+impl<'a> core::iter::Iterator for MutMemoryMapIterator<'a> {
     type Item = &'a mut bits::MemoryDescriptor;
 
     fn next(&mut self) -> Option<Self::Item> {

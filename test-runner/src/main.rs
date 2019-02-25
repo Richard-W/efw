@@ -21,7 +21,11 @@ fn efw_main() {
             .unwrap()
     };
 
+
     println!("Memory map");
+    for desc in memory_map.iter_mut() {
+        println!("Mutable entry of type {:#x}", desc.type_);
+    }
     for desc in memory_map.iter() {
         println!("  Type:       {:#x}", desc.type_);
         println!("  Phys Start: {:#x}", desc.physical_start);
