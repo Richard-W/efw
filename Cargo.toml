@@ -13,5 +13,5 @@ test = false
 
 [dependencies]
 late-static = "0.3"
-r-efi = { git="https://github.com/richard-w/r-efi", branch="allocate-pages-fix" }
+r-efi = { git="https://github.com/richard-w/r-efi", branch="graphics-output-protocol" }
 ucs2 = "0.1"

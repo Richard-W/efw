@@ -21,16 +21,11 @@ fn efw_main() {
             .unwrap()
     };
 
-
     println!("Memory map");
     for desc in memory_map.iter_mut() {
-        println!("Mutable entry of type {:#x}", desc.type_);
+        println!("Mutable entry of type {:#x}", desc.r#type);
     }
-    for desc in memory_map.iter() {
-        println!("  Type:       {:#x}", desc.type_);
-        println!("  Phys Start: {:#x}", desc.physical_start);
-        println!("  Virt Start: {:#x}", desc.virtual_start);
-        println!("  Num Pages:  {:#x}", desc.number_of_pages);
-        println!();
-    }
+
+    let graphics_output_instances = efw::efi::protocols::GraphicsOutput::find_instances().unwrap();
+    println!("Found {} graphics output protocols", graphics_output_instances.len());
 }
