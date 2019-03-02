@@ -1,5 +1,7 @@
 use super::*;
 
+use bits::protocols::graphics_output::{BltPixel, BltOperation, Mode, ModeInformation};
+
 pub struct GraphicsOutput(*mut bits::protocols::graphics_output::Protocol);
 
 impl Protocol for GraphicsOutput {
@@ -13,6 +15,45 @@ impl Protocol for GraphicsOutput {
 impl GraphicsOutput {
     pub fn bits(&mut self) -> *mut bits::protocols::graphics_output::Protocol {
         self.0
+    }
+
+    pub unsafe fn query_mode(&mut self, mode_number: u32) -> Result<&'static [ModeInformation]> {
+        let mut size_of_info: usize = 0;
+        let mut info: *mut ModeInformation = 0x0 as _;
+        status_to_result(((*self.0).query_mode)(self.0, mode_number, &mut size_of_info as _, &mut info as _))?;
+        Ok(core::slice::from_raw_parts(info, size_of_info))
+    }
+
+    pub unsafe fn set_mode(&mut self, mode_number: u32) -> Result<()> {
+        status_to_result(((*self.0).set_mode)(self.0, mode_number))
+    }
+
+    pub unsafe fn blt(&mut self,
+        blt_buffer: *mut BltPixel,
+        blt_operation: BltOperation,
+        source_x: usize,
+        source_y: usize,
+        destination_x: usize,
+        destination_y: usize,
+        width: usize,
+        height: usize,
+        delta: usize,
+    ) -> Result<()> {
+        status_to_result(((*self.0).blt)(self.0,
+            blt_buffer,
+            blt_operation,
+            source_x,
+            source_y,
+            destination_x,
+            destination_y,
+            width,
+            height,
+            delta,
+        ))
+    }
+
+    pub unsafe fn mode(&self) -> &'static Mode {
+        &mut *(*self.0).mode
     }
 }
 
