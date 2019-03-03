@@ -10,6 +10,9 @@ pub use self::boot_services::*;
 mod handle;
 pub use self::handle::*;
 
+mod memory_map;
+pub use self::memory_map::*;
+
 mod protocol;
 pub use self::protocol::*;
 
