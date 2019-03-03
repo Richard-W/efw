@@ -21,5 +21,8 @@ pub mod protocols;
 mod result;
 pub use self::result::*;
 
+mod runtime_services;
+pub use self::runtime_services::*;
+
 mod system_table;
 pub use self::system_table::*;

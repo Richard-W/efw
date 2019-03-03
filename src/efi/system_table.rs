@@ -64,6 +64,13 @@ impl SystemTable {
         }
     }
 
+    /// Runtime Services table.
+    pub fn runtime_services(&self) -> RuntimeServices {
+        unsafe {
+            RuntimeServices::new((*self.0).runtime_services)
+        }
+    }
+
     /// Boot Services table.
     pub fn boot_services(&self) -> BootServices {
         unsafe {
