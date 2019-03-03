@@ -3,16 +3,18 @@ use super::*;
 /// UEFI Memory Map container.
 pub struct MemoryMap {
     pub(crate) buffer: Vec<u8>,
+    pub(crate) map_key: usize,
     pub(crate) desc_size: usize,
-    map_key: usize,
+    pub(crate) desc_ver: u32,
 }
 
 impl MemoryMap {
-    pub(crate) fn new(buffer: Vec<u8>, desc_size: usize, map_key: usize) -> Self {
+    pub(crate) fn new(buffer: Vec<u8>, map_key: usize, desc_size: usize, desc_ver: u32) -> Self {
         MemoryMap {
             buffer: buffer,
-            desc_size: desc_size,
             map_key: map_key,
+            desc_size: desc_size,
+            desc_ver: desc_ver,
         }
     }
 

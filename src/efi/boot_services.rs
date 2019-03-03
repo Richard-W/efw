@@ -53,7 +53,7 @@ impl BootServices {
             &mut desc_ver as _)
         )?;
 
-        Ok(MemoryMap::new(buffer, desc_size, map_key))
+        Ok(MemoryMap::new(buffer, map_key, desc_size, desc_ver))
     }
 
     /// Get an array of handles that support a specific protocol.
