@@ -13,5 +13,5 @@ test = false
 
 [dependencies]
 late-static = "0.3"
-r-efi = { git="https://github.com/richard-w/r-efi", branch="graphics-output-protocol" }
+r-efi = { git="https://github.com/r-util/r-efi", branch="master" }
 ucs2 = "0.1"
