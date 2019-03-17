@@ -1,6 +1,7 @@
 #![no_std]
 #![feature(alloc)]
 #![feature(alloc_error_handler)]
+#![feature(alloc_prelude)]
 #![feature(panic_info_message)]
 
 extern crate alloc;
@@ -11,7 +12,7 @@ extern crate ucs2;
 mod allocator;
 #[macro_use] mod console;
 
-use alloc::prelude::*;
+use alloc::prelude::v1::*;
 
 pub use alloc::*;
 pub use self::console::*;
