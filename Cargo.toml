@@ -1,7 +1,7 @@
 [package]
 name = "efw"
 description = "Framework for writing UEFI applications"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Richard Wiedenhöft <richard@wiedenhoeft.xyz>"]
 edition = "2018"
 license = "MIT"
