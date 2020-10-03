@@ -1,5 +1,4 @@
 #![no_std]
-#![feature(alloc)]
 #![feature(alloc_error_handler)]
 #![feature(alloc_prelude)]
 #![feature(panic_info_message)]
