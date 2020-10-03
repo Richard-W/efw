@@ -22,7 +22,6 @@ pub mod efi;
 static ALLOCATOR: allocator::Allocator = allocator::Allocator;
 
 extern {
-    #[no_mangle]
     fn efw_main();
 }
 
