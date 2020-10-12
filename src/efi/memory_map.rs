@@ -42,10 +42,7 @@ pub struct ConstMemoryMapIterator<'a> {
 
 impl<'a> ConstMemoryMapIterator<'a> {
     pub(crate) fn new(mmap: &'a MemoryMap) -> Self {
-        ConstMemoryMapIterator {
-            mmap,
-            position: 0,
-        }
+        ConstMemoryMapIterator { mmap, position: 0 }
     }
 }
 
@@ -57,8 +54,7 @@ impl<'a> core::iter::Iterator for ConstMemoryMapIterator<'a> {
         let item_end = item_offset + self.mmap.desc_size;
         if item_end >= self.mmap.buffer.len() {
             None
-        }
-        else {
+        } else {
             let ptr: *const u8 = &self.mmap.buffer.as_slice()[0] as _;
             unsafe {
                 let desc_ptr = ptr.add(item_offset) as *const bits::MemoryDescriptor;
@@ -77,10 +73,7 @@ pub struct MutMemoryMapIterator<'a> {
 
 impl<'a> MutMemoryMapIterator<'a> {
     pub(crate) fn new(mmap: &'a mut MemoryMap) -> Self {
-        MutMemoryMapIterator {
-            mmap,
-            position: 0,
-        }
+        MutMemoryMapIterator { mmap, position: 0 }
     }
 }
 
@@ -92,8 +85,7 @@ impl<'a> core::iter::Iterator for MutMemoryMapIterator<'a> {
         let item_end = item_offset + self.mmap.desc_size;
         if item_end >= self.mmap.buffer.len() {
             None
-        }
-        else {
+        } else {
             let ptr: *mut u8 = &mut self.mmap.buffer.as_mut_slice()[0] as _;
             unsafe {
                 let desc_ptr = ptr.add(item_offset) as *mut bits::MemoryDescriptor;

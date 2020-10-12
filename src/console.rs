@@ -9,9 +9,12 @@ impl core::fmt::Write for StdOut {
             let mut buffer: [u16; 2] = [0, 0];
             buffer[0] = ch;
             unsafe {
-                con_out.output_string(&buffer[0] as *const u16 as _).map_err(|_| ucs2::Error::InvalidData)
+                con_out
+                    .output_string(&buffer[0] as *const u16 as _)
+                    .map_err(|_| ucs2::Error::InvalidData)
             }
-        }).unwrap();
+        })
+        .unwrap();
         Ok(())
     }
 }

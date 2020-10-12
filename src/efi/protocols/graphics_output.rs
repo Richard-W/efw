@@ -1,6 +1,6 @@
 use super::*;
 
-use bits::protocols::graphics_output::{BltPixel, BltOperation, Mode, ModeInformation};
+use bits::protocols::graphics_output::{BltOperation, BltPixel, Mode, ModeInformation};
 
 /// Configures the video hardware and exposes the framebuffer.
 pub struct GraphicsOutput(*mut bits::protocols::graphics_output::Protocol);
@@ -25,7 +25,12 @@ impl GraphicsOutput {
     pub unsafe fn query_mode(&mut self, mode_number: u32) -> Result<&'static [ModeInformation]> {
         let mut size_of_info: usize = 0;
         let mut info: *mut ModeInformation = 0x0 as _;
-        status_to_result(((*self.0).query_mode)(self.0, mode_number, &mut size_of_info as _, &mut info as _))?;
+        status_to_result(((*self.0).query_mode)(
+            self.0,
+            mode_number,
+            &mut size_of_info as _,
+            &mut info as _,
+        ))?;
         Ok(core::slice::from_raw_parts(info, size_of_info))
     }
 
@@ -36,7 +41,8 @@ impl GraphicsOutput {
 
     /// Draw pixels to framebuffer.
     #[allow(clippy::too_many_arguments)]
-    pub unsafe fn blt(&mut self,
+    pub unsafe fn blt(
+        &mut self,
         blt_buffer: *mut BltPixel,
         blt_operation: BltOperation,
         source_x: usize,
@@ -47,7 +53,8 @@ impl GraphicsOutput {
         height: usize,
         delta: usize,
     ) -> Result<()> {
-        status_to_result(((*self.0).blt)(self.0,
+        status_to_result(((*self.0).blt)(
+            self.0,
             blt_buffer,
             blt_operation,
             source_x,
@@ -65,4 +72,3 @@ impl GraphicsOutput {
         &mut *(*self.0).mode
     }
 }
-
