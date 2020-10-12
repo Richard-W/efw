@@ -15,7 +15,7 @@ pub trait Protocol: core::marker::Sized {
         let handles = Self::find_supporting_handles()?;
         let instances = handles.iter().map(|handle| {
             unsafe {
-                Self::new(SystemTable::get().boot_services().handle_protocol(handle.clone(), &Self::PROTOCOL_GUID as *const _ as *mut _).unwrap())
+                Self::new(SystemTable::get().boot_services().handle_protocol(*handle, &Self::PROTOCOL_GUID as *const _ as *mut _).unwrap())
             }
         }).collect();
         Ok(instances)

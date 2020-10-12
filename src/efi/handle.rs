@@ -13,7 +13,7 @@ impl Handle {
     }
 
     pub fn get_self_handle() -> Self {
-        SELF_HANDLE.clone()
+        *SELF_HANDLE
     }
 
     pub fn new(handle: bits::Handle) -> Self {

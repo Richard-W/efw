@@ -38,20 +38,15 @@ unsafe extern fn efi_main(handle: efi::bits::Handle, system_table: *mut efi::bit
 #[panic_handler]
 fn panic_handler(panic_info: &core::panic::PanicInfo) -> ! {
     let message = match panic_info.message() {
-        Some(s) => s.clone(),
+        Some(s) => *s,
         None => format_args!("no message"),
     };
     println!("Panic occured: \"{}\"", message);
-    match panic_info.location() {
-        Some(l) => {
-            println!("  File: {}", l.file());
-            println!("  Line: {}", l.line());
-            println!("  Column: {}", l.column());
-        },
-        None => {},
+    if let Some(l) = panic_info.location() {
+        println!("  File: {}", l.file());
+        println!("  Line: {}", l.line());
+        println!("  Column: {}", l.column());
     }
     println!("Halting...");
     loop {}
 }
-
-

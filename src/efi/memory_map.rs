@@ -11,10 +11,10 @@ pub struct MemoryMap {
 impl MemoryMap {
     pub(crate) fn new(buffer: Vec<u8>, map_key: usize, desc_size: usize, desc_ver: u32) -> Self {
         MemoryMap {
-            buffer: buffer,
-            map_key: map_key,
-            desc_size: desc_size,
-            desc_ver: desc_ver,
+            buffer,
+            map_key,
+            desc_size,
+            desc_ver,
         }
     }
 
@@ -43,7 +43,7 @@ pub struct ConstMemoryMapIterator<'a> {
 impl<'a> ConstMemoryMapIterator<'a> {
     pub(crate) fn new(mmap: &'a MemoryMap) -> Self {
         ConstMemoryMapIterator {
-            mmap: mmap,
+            mmap,
             position: 0,
         }
     }
@@ -61,7 +61,7 @@ impl<'a> core::iter::Iterator for ConstMemoryMapIterator<'a> {
         else {
             let ptr: *const u8 = &self.mmap.buffer.as_slice()[0] as _;
             unsafe {
-                let desc_ptr = ptr.offset(item_offset as isize) as *const bits::MemoryDescriptor;
+                let desc_ptr = ptr.add(item_offset) as *const bits::MemoryDescriptor;
                 self.position += 1;
                 Some(&*desc_ptr)
             }
@@ -78,7 +78,7 @@ pub struct MutMemoryMapIterator<'a> {
 impl<'a> MutMemoryMapIterator<'a> {
     pub(crate) fn new(mmap: &'a mut MemoryMap) -> Self {
         MutMemoryMapIterator {
-            mmap: mmap,
+            mmap,
             position: 0,
         }
     }
@@ -96,7 +96,7 @@ impl<'a> core::iter::Iterator for MutMemoryMapIterator<'a> {
         else {
             let ptr: *mut u8 = &mut self.mmap.buffer.as_mut_slice()[0] as _;
             unsafe {
-                let desc_ptr = ptr.offset(item_offset as isize) as *mut bits::MemoryDescriptor;
+                let desc_ptr = ptr.add(item_offset) as *mut bits::MemoryDescriptor;
                 self.position += 1;
                 Some(&mut *desc_ptr)
             }

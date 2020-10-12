@@ -35,6 +35,7 @@ impl GraphicsOutput {
     }
 
     /// Draw pixels to framebuffer.
+    #[allow(clippy::too_many_arguments)]
     pub unsafe fn blt(&mut self,
         blt_buffer: *mut BltPixel,
         blt_operation: BltOperation,
