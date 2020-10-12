@@ -13,5 +13,5 @@ test = false
 
 [dependencies]
 late-static = "0.3"
-r-efi = "2.1"
-ucs2 = "0.1"
+r-efi = "3.1"
+ucs2 = "0.3"

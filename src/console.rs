@@ -11,7 +11,7 @@ impl core::fmt::Write for StdOut {
             unsafe {
                 con_out
                     .output_string(&buffer[0] as *const u16 as _)
-                    .map_err(|_| ucs2::Error::InvalidData)
+                    .map_err(|_| ucs2::Error::MultiByte)
             }
         })
         .unwrap();
