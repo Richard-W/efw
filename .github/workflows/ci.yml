@@ -17,6 +17,9 @@ jobs:
       - name: Install cargo-xbuild 
         run: cargo install cargo-xbuild
 
+      - name: Install rust sources
+        run: rustup component add rust-src
+
       - name: Checkout
         uses: actions/checkout@v2
 
