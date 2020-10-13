@@ -18,7 +18,7 @@ jobs:
         run: cargo install cargo-xbuild
 
       - name: Install rust sources
-        run: rustup component add rust-src
+        run: rustup component add --toolchain nightly rust-src
 
       - name: Checkout
         uses: actions/checkout@v2
@@ -33,7 +33,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Run clippy
-        run: cargo clippy --verbose --all
+        run: cargo +stable clippy --verbose --all
 
   format:
     runs-on: ubuntu-latest
@@ -42,4 +42,4 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Check formatting
-        run: cargo fmt --all -- --check
+        run: cargo +stable fmt --all -- --check
