@@ -15,6 +15,11 @@ impl SimpleTextOutput {
         self.0
     }
 
+    /// Print the UCS2 string in `string`.
+    ///
+    /// # Safety
+    ///
+    /// Safe if `string` points to a valid UCS2 string.
     pub unsafe fn output_string(&mut self, string: *mut u16) -> Result<()> {
         status_to_result(((*self.0).output_string)(self.0 as _, string))
     }

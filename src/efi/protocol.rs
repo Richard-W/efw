@@ -3,6 +3,11 @@ use super::*;
 pub trait Protocol: core::marker::Sized {
     const PROTOCOL_GUID: bits::Guid;
 
+    /// Wrap a raw pointer as the protocol
+    ///
+    /// # Safety
+    ///
+    /// Safe if `ptr` points to the expected protocol.
     unsafe fn new(ptr: *mut core::ffi::c_void) -> Self;
 
     fn find_supporting_handles() -> Result<Vec<Handle>> {

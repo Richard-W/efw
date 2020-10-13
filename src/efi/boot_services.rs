@@ -8,6 +8,10 @@ impl BootServices {
     }
 
     /// Allocate `size` bytes of memory.
+    ///
+    /// # Safety
+    ///
+    /// Safe if `exit_boot_services` was not called.
     pub unsafe fn allocate_pool(
         &self,
         pool_type: bits::MemoryType,
@@ -19,11 +23,19 @@ impl BootServices {
     }
 
     /// Frees memory allocated by `allocate_pool`.
+    ///
+    /// # Safety
+    ///
+    /// Safe if `exit_boot_services` was not called and `buffer` was allocated by `allocate_pool`.
     pub unsafe fn free_pool(&self, buffer: *mut u8) -> Result<()> {
         status_to_result(((*self.0).free_pool)(buffer as _))
     }
 
     /// Allocate `num` consecutive pages of physical memory.
+    ///
+    /// # Safety
+    ///
+    /// Safe if `exit_boot_services` was not called.
     pub unsafe fn allocate_pages(
         &self,
         allocate_type: bits::AllocateType,
@@ -41,11 +53,19 @@ impl BootServices {
     }
 
     /// Free `num` consecutive pages of physical memory.
+    ///
+    /// # Safety
+    ///
+    /// Safe if `exit_boot_services` was not called and `memory` was allocated by `allocate_pages`.
     pub unsafe fn free_pages(&self, memory: *mut u8, num: usize) -> Result<()> {
         status_to_result(((*self.0).free_pages)(memory as _, num))
     }
 
     /// Get the current memory map.
+    ///
+    /// # Safety
+    ///
+    /// Safe if `exit_boot_services` was not called.
     pub unsafe fn get_memory_map(&self) -> Result<MemoryMap> {
         let mut buffer_size: usize = 0;
         let mut map_key: usize = 0;
@@ -77,6 +97,10 @@ impl BootServices {
     }
 
     /// Get an array of handles that support a specific protocol.
+    ///
+    /// # Safety
+    ///
+    /// Safe if `exit_boot_services` was not called and passed pointer point to valid memory.
     pub unsafe fn locate_handle(
         &self,
         search_type: bits::LocateSearchType,
@@ -116,6 +140,10 @@ impl BootServices {
     }
 
     /// Get a pointer to a protocol supported by the handle.
+    ///
+    /// # Safety
+    ///
+    /// Safe if `exit_boot_services` was not called and passed pointer point to valid memory.
     pub unsafe fn handle_protocol(
         &self,
         handle: Handle,
@@ -131,6 +159,10 @@ impl BootServices {
     }
 
     /// Exit the boot services and take control of the machine
+    ///
+    /// # Safety
+    ///
+    /// Safe if `exit_boot_services` was not called before.
     pub unsafe fn exit_boot_services(&self, map_key: usize) -> Result<()> {
         status_to_result(((*self.0).exit_boot_services)(
             Handle::get_self_handle().value() as _,

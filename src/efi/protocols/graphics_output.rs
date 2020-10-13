@@ -22,6 +22,10 @@ impl GraphicsOutput {
     /// Get the mode information struct.
     ///
     /// Contains information about the dimensions of the framebuffer.
+    ///
+    /// # Safety
+    ///
+    /// Safe if boot services are still running.
     pub unsafe fn query_mode(&mut self, mode_number: u32) -> Result<&'static [ModeInformation]> {
         let mut size_of_info: usize = 0;
         let mut info: *mut ModeInformation = 0x0 as _;
@@ -35,11 +39,19 @@ impl GraphicsOutput {
     }
 
     /// Switch to a different mode.
+    ///
+    /// # Safety
+    ///
+    /// Safe if boot services are still running.
     pub unsafe fn set_mode(&mut self, mode_number: u32) -> Result<()> {
         status_to_result(((*self.0).set_mode)(self.0, mode_number))
     }
 
     /// Draw pixels to framebuffer.
+    ///
+    /// # Safety
+    ///
+    /// Safe if boot services are still running.
     #[allow(clippy::too_many_arguments)]
     pub unsafe fn blt(
         &mut self,
@@ -68,6 +80,10 @@ impl GraphicsOutput {
     }
 
     /// Get the current mode.
+    ///
+    /// # Safety
+    ///
+    /// Safe if boot services are still running.
     pub unsafe fn mode(&self) -> &'static Mode {
         &mut *(*self.0).mode
     }
