@@ -1,0 +1,5 @@
+status = [
+	"build",
+	"clippy",
+	"format",
+]
