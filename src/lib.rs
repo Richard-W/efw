@@ -39,6 +39,7 @@ unsafe extern "C" fn efi_main(
     efi::bits::Status::SUCCESS
 }
 
+#[cfg(not(test))]
 #[panic_handler]
 fn panic_handler(panic_info: &core::panic::PanicInfo) -> ! {
     let message = match panic_info.message() {
