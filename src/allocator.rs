@@ -37,6 +37,7 @@ unsafe impl core::alloc::GlobalAlloc for Allocator {
     }
 }
 
+#[cfg(not(test))]
 #[alloc_error_handler]
 fn alloc_error_handler(_layout: core::alloc::Layout) -> ! {
     panic!("Allocation failed");
