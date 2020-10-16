@@ -1,4 +1,4 @@
-#![no_std]
+#![cfg_attr(not(test), no_std)]
 #![feature(alloc_error_handler)]
 #![feature(alloc_prelude)]
 #![feature(panic_info_message)]
@@ -19,6 +19,7 @@ pub use alloc::*;
 
 pub mod efi;
 
+#[cfg(not(test))]
 #[global_allocator]
 static ALLOCATOR: allocator::Allocator = allocator::Allocator;
 

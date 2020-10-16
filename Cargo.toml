@@ -9,7 +9,6 @@ repository = "https://github.com/richard-w/efw"
 
 [lib]
 path = "src/lib.rs"
-test = false
 
 [dependencies]
 late-static = "0.3"
