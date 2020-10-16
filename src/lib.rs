@@ -1,4 +1,4 @@
-#![no_std]
+#![cfg_attr(not(test), no_std)]
 #![feature(alloc_error_handler)]
 #![feature(alloc_prelude)]
 #![feature(panic_info_message)]
@@ -18,9 +18,6 @@ pub use self::console::*;
 pub use alloc::*;
 
 pub mod efi;
-
-#[global_allocator]
-static ALLOCATOR: allocator::Allocator = allocator::Allocator;
 
 extern "C" {
     fn efw_main();
