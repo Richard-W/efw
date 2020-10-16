@@ -1,5 +1,6 @@
 use super::*;
 
+/// Runtime services function table
 pub struct RuntimeServices(*mut bits::RuntimeServices);
 
 impl RuntimeServices {

@@ -1,5 +1,6 @@
 use super::*;
 
+/// Simple Text Output protocol
 pub struct SimpleTextOutput(*mut bits::protocols::simple_text_output::Protocol);
 
 impl Protocol for SimpleTextOutput {
@@ -11,6 +12,7 @@ impl Protocol for SimpleTextOutput {
 }
 
 impl SimpleTextOutput {
+    /// Pointer to the underlying struct as defined by the UEFI spec.
     pub fn bits(&mut self) -> *mut bits::protocols::simple_text_output::Protocol {
         self.0
     }

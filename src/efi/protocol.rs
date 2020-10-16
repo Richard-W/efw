@@ -1,5 +1,6 @@
 use super::*;
 
+/// EFI component that can be located via its GUID
 pub trait Protocol: core::marker::Sized {
     const PROTOCOL_GUID: bits::Guid;
 

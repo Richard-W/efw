@@ -1,5 +1,6 @@
 use super::*;
 
+/// Boot services function table
 pub struct BootServices(*mut bits::BootServices);
 
 impl BootServices {

@@ -14,7 +14,7 @@ impl Protocol for GraphicsOutput {
 }
 
 impl GraphicsOutput {
-    /// Get a pointer to the underlying struct as defined by the UEFI spec.
+    /// Pointer to the underlying struct as defined by the UEFI spec.
     pub fn bits(&mut self) -> *mut bits::protocols::graphics_output::Protocol {
         self.0
     }

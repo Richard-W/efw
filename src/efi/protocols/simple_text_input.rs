@@ -1,5 +1,6 @@
 use super::*;
 
+/// Simple Text Input protocol
 pub struct SimpleTextInput(*mut bits::protocols::simple_text_input::Protocol);
 
 impl Protocol for SimpleTextInput {
@@ -11,6 +12,7 @@ impl Protocol for SimpleTextInput {
 }
 
 impl SimpleTextInput {
+    /// Pointer to the underlying struct as defined by the UEFI spec.
     pub fn bits(&mut self) -> *mut bits::protocols::simple_text_input::Protocol {
         self.0
     }
