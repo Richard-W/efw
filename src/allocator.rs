@@ -4,6 +4,10 @@ use core::ptr;
 
 pub struct Allocator;
 
+#[cfg(not(test))]
+#[global_allocator]
+static ALLOCATOR: allocator::Allocator = allocator::Allocator;
+
 // Largest power of two lower than u16::MAX
 const MAX_ALIGN: usize = 32768;
 
