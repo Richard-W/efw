@@ -79,9 +79,7 @@ fn write_u16(slice: &mut [u8], value: u16) {
 fn read_u16(slice: &[u8]) -> u16 {
     assert_eq!(slice.len(), core::mem::size_of::<u16>());
     let ptr = slice.as_ptr() as *const u16;
-    unsafe {
-        ptr.read()
-    }
+    unsafe { ptr.read() }
 }
 
 #[cfg(test)]
