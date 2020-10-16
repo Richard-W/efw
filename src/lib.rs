@@ -19,10 +19,6 @@ pub use alloc::*;
 
 pub mod efi;
 
-#[cfg(not(test))]
-#[global_allocator]
-static ALLOCATOR: allocator::Allocator = allocator::Allocator;
-
 extern "C" {
     fn efw_main();
 }
