@@ -25,11 +25,13 @@ pub fn _print_stdout(args: core::fmt::Arguments) {
     StdOut.write_fmt(args).unwrap();
 }
 
+/// Print to the standard output console
 #[macro_export]
 macro_rules! print {
-    ($($arg:tt)*) => ($crate::_print_stdout(format_args!($($arg)*)));
+    ($($arg:tt)*) => ($crate::prelude::_print_stdout(format_args!($($arg)*)));
 }
 
+/// Print a line to the standard output console
 #[macro_export]
 macro_rules! println {
     () => (print!("\r\n"));

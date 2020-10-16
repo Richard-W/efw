@@ -3,21 +3,35 @@
 #![feature(alloc_prelude)]
 #![feature(panic_info_message)]
 
-extern crate alloc;
+extern crate alloc as alloc_crate;
 extern crate late_static;
 extern crate r_efi;
 extern crate ucs2;
 
+// Private modules
 mod allocator;
-#[macro_use]
 mod console;
 
-use alloc::prelude::v1::*;
+/// Commonly used types, traits, and macros
+pub mod prelude {
+    pub use crate::console::*;
+    pub use alloc_crate::prelude::v1::*;
+}
+use prelude::*;
 
-pub use self::console::*;
-pub use alloc::*;
-
+// Exported modules
+pub use alloc_crate::alloc;
+pub use alloc_crate::borrow;
+pub use alloc_crate::boxed;
+pub use alloc_crate::collections;
 pub mod efi;
+pub use alloc_crate::fmt;
+pub use alloc_crate::rc;
+pub use alloc_crate::slice;
+pub use alloc_crate::str;
+pub use alloc_crate::string;
+pub use alloc_crate::sync;
+pub use alloc_crate::vec;
 
 extern "C" {
     fn efw_main();
