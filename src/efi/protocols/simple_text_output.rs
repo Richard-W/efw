@@ -12,12 +12,12 @@ impl Protocol for SimpleTextOutput {
 }
 
 impl SimpleTextOutput {
-    /// Pointer to the underlying struct as defined by the UEFI spec.
+    /// Pointer to the underlying struct as defined by the UEFI spec
     pub fn bits(&mut self) -> *mut bits::protocols::simple_text_output::Protocol {
         self.0
     }
 
-    /// Print the UCS2 string in `string`.
+    /// Print the UCS2 string in `string`
     ///
     /// # Safety
     ///

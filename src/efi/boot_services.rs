@@ -8,7 +8,7 @@ impl BootServices {
         BootServices(boot_services)
     }
 
-    /// Allocate `size` bytes of memory.
+    /// Allocate `size` bytes of memory
     ///
     /// # Safety
     ///
@@ -23,7 +23,7 @@ impl BootServices {
         Ok(buffer as _)
     }
 
-    /// Frees memory allocated by `allocate_pool`.
+    /// Frees memory allocated by `allocate_pool`
     ///
     /// # Safety
     ///
@@ -32,7 +32,7 @@ impl BootServices {
         status_to_result(((*self.0).free_pool)(buffer as _))
     }
 
-    /// Allocate `num` consecutive pages of physical memory.
+    /// Allocate `num` consecutive pages of physical memory
     ///
     /// # Safety
     ///
@@ -53,7 +53,7 @@ impl BootServices {
         Ok(result as _)
     }
 
-    /// Free `num` consecutive pages of physical memory.
+    /// Free `num` consecutive pages of physical memory
     ///
     /// # Safety
     ///
@@ -62,7 +62,7 @@ impl BootServices {
         status_to_result(((*self.0).free_pages)(memory as _, num))
     }
 
-    /// Get the current memory map.
+    /// Get the current memory map
     ///
     /// # Safety
     ///
@@ -97,7 +97,7 @@ impl BootServices {
         Ok(MemoryMap::new(buffer, map_key, desc_size, desc_ver))
     }
 
-    /// Get an array of handles that support a specific protocol.
+    /// Get an array of handles that support a specific protocol
     ///
     /// # Safety
     ///
@@ -108,7 +108,7 @@ impl BootServices {
         protocol: *mut bits::Guid,
         search_key: *mut core::ffi::c_void,
     ) -> Result<Vec<Handle>> {
-        // Find out needed buffer size.
+        // Find out needed buffer size
         let mut buffer_size = 0;
         let null_status = ((*self.0).locate_handle)(
             search_type,
@@ -121,7 +121,7 @@ impl BootServices {
             return Ok(vec![]);
         }
 
-        // Create buffer.
+        // Create buffer
         let mut vector: Vec<Handle> = Vec::new();
         vector.resize(
             buffer_size / core::mem::size_of::<Handle>(),
@@ -129,7 +129,7 @@ impl BootServices {
         );
         let buffer = &mut vector.as_mut_slice()[0] as *mut Handle as *mut bits::Handle;
 
-        // Perform the search.
+        // Perform the search
         status_to_result(((*self.0).locate_handle)(
             search_type,
             protocol,
@@ -140,7 +140,7 @@ impl BootServices {
         Ok(vector)
     }
 
-    /// Get a pointer to a protocol supported by the handle.
+    /// Get a pointer to a protocol supported by the handle
     ///
     /// # Safety
     ///

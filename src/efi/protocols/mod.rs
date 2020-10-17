@@ -1,4 +1,4 @@
-//! Collection of UEFI protocols.
+//! Collection of UEFI protocols
 
 use super::*;
 

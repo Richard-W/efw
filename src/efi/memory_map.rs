@@ -1,6 +1,6 @@
 use super::*;
 
-/// UEFI Memory Map container.
+/// UEFI Memory Map container
 pub struct MemoryMap {
     pub(crate) buffer: Vec<u8>,
     pub(crate) map_key: usize,
@@ -18,7 +18,7 @@ impl MemoryMap {
         }
     }
 
-    /// Key of the memory map.
+    /// Key of the memory map
     pub fn key(&self) -> usize {
         self.map_key
     }
@@ -33,18 +33,18 @@ impl MemoryMap {
         self.desc_ver
     }
 
-    /// Get a constant iterator of memory map entries.
+    /// Get a constant iterator of memory map entries
     pub fn iter(&self) -> impl Iterator<Item = &bits::MemoryDescriptor> {
         ConstMemoryMapIterator::new(self)
     }
 
-    /// Get a mutable iterator of memory map entries.
+    /// Get a mutable iterator of memory map entries
     pub fn iter_mut(&mut self) -> impl Iterator<Item = &mut bits::MemoryDescriptor> {
         MutMemoryMapIterator::new(self)
     }
 }
 
-/// Constant iterator type for the `MemoryMap` struct.
+/// Constant iterator type for the `MemoryMap` struct
 struct ConstMemoryMapIterator<'a> {
     mmap: &'a MemoryMap,
     position: usize,
@@ -75,7 +75,7 @@ impl<'a> core::iter::Iterator for ConstMemoryMapIterator<'a> {
     }
 }
 
-/// Mutable iterator type for the `MemoryMap` struct.
+/// Mutable iterator type for the `MemoryMap` struct
 struct MutMemoryMapIterator<'a> {
     mmap: &'a mut MemoryMap,
     position: usize,

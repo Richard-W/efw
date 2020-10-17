@@ -9,7 +9,7 @@ impl RuntimeServices {
     }
 
     /// Announces virtual address mappings to EFI components so they can continue to work
-    /// after page tables have been modified.
+    /// after page tables have been modified
     ///
     /// # Safety
     ///
