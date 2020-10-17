@@ -66,35 +66,22 @@ impl BootServices {
     ///
     /// # Safety
     ///
-    /// Safe if `exit_boot_services` was not called.
-    pub unsafe fn get_memory_map(&self) -> Result<MemoryMap> {
-        let mut buffer_size: usize = 0;
-        let mut map_key: usize = 0;
-        let mut desc_size: usize = 0;
-        let mut desc_ver: u32 = 0;
-        ((*self.0).get_memory_map)(
-            &mut buffer_size as _,
-            0 as _,
-            &mut map_key as _,
-            &mut desc_size as _,
-            &mut desc_ver as _,
-        );
-
-        // Account for the additional allocation
-        buffer_size += desc_size;
-
-        let mut buffer = Vec::new();
-        buffer.resize(buffer_size, 0);
-
+    /// Safe if `exit_boot_services` was not called and pointers refer to valid memory.
+    pub unsafe fn get_memory_map(
+        &self,
+        memory_map_size: *mut usize,
+        memory_map: *mut bits::MemoryDescriptor,
+        map_key: *mut usize,
+        desc_size: *mut usize,
+        desc_version: *mut u32,
+    ) -> Result<()> {
         status_to_result(((*self.0).get_memory_map)(
-            &mut buffer_size as _,
-            &mut buffer.as_mut_slice()[0] as *mut u8 as *mut _,
-            &mut map_key as _,
-            &mut desc_size as _,
-            &mut desc_ver as _,
-        ))?;
-
-        Ok(MemoryMap::new(buffer, map_key, desc_size, desc_ver))
+            memory_map_size,
+            memory_map,
+            map_key,
+            desc_size,
+            desc_version,
+        ))
     }
 
     /// Get an array of handles that support a specific protocol
