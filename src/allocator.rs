@@ -44,7 +44,7 @@ fn align_worst_case_size(size: usize, align: usize) -> usize {
     size + 2 + (align - 1)
 }
 
-/// Cut a slice so the first element is aligned.
+/// Cut a slice so the first element is aligned
 fn align_slice(slice: &mut [u8], align: usize) -> &mut [u8] {
     assert!(align <= MAX_ALIGN);
     let address = slice.as_mut_ptr() as usize;

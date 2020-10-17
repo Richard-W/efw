@@ -1,5 +1,6 @@
 use super::*;
 
+/// EFI result type
 pub type Result<T> = core::result::Result<T, bits::Status>;
 
 pub(crate) fn status_to_result(status: efi::bits::Status) -> Result<()> {

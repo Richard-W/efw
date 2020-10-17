@@ -1,6 +1,7 @@
 use super::*;
 use late_static::LateStatic;
 
+/// Handle of an opaque object
 #[repr(transparent)]
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
 pub struct Handle(bits::Handle);

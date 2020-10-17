@@ -1,5 +1,4 @@
-//! Ergonomic wrappers around the UEFI API.
-
+//! Ergonomic wrappers around the UEFI API
 use super::*;
 
 pub use r_efi::efi as bits;

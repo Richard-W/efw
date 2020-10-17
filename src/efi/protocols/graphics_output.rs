@@ -2,7 +2,7 @@ use super::*;
 
 use bits::protocols::graphics_output::{BltOperation, BltPixel, Mode, ModeInformation};
 
-/// Configures the video hardware and exposes the framebuffer.
+/// Configures the video hardware and exposes the framebuffer
 pub struct GraphicsOutput(*mut bits::protocols::graphics_output::Protocol);
 
 impl Protocol for GraphicsOutput {
@@ -14,12 +14,12 @@ impl Protocol for GraphicsOutput {
 }
 
 impl GraphicsOutput {
-    /// Get a pointer to the underlying struct as defined by the UEFI spec.
+    /// Pointer to the underlying struct as defined by the UEFI spec
     pub fn bits(&mut self) -> *mut bits::protocols::graphics_output::Protocol {
         self.0
     }
 
-    /// Get the mode information struct.
+    /// Get the mode information struct
     ///
     /// Contains information about the dimensions of the framebuffer.
     ///
@@ -38,7 +38,7 @@ impl GraphicsOutput {
         Ok(core::slice::from_raw_parts(info, size_of_info))
     }
 
-    /// Switch to a different mode.
+    /// Switch to a different mode
     ///
     /// # Safety
     ///
@@ -47,7 +47,7 @@ impl GraphicsOutput {
         status_to_result(((*self.0).set_mode)(self.0, mode_number))
     }
 
-    /// Draw pixels to framebuffer.
+    /// Draw pixels to framebuffer
     ///
     /// # Safety
     ///
@@ -79,7 +79,7 @@ impl GraphicsOutput {
         ))
     }
 
-    /// Get the current mode.
+    /// Get the current mode
     ///
     /// # Safety
     ///
