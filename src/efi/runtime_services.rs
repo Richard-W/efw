@@ -19,7 +19,7 @@ impl RuntimeServices {
         status_to_result(((*self.0).set_virtual_address_map)(
             length,
             memory_map.desc_size,
-            memory_map.desc_ver,
+            memory_map.desc_version,
             &mut memory_map.buffer[0] as *mut _ as _,
         ))
     }

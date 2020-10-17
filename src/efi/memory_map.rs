@@ -5,16 +5,16 @@ pub struct MemoryMap {
     pub(crate) buffer: Vec<u8>,
     pub(crate) map_key: usize,
     pub(crate) desc_size: usize,
-    pub(crate) desc_ver: u32,
+    pub(crate) desc_version: u32,
 }
 
 impl MemoryMap {
-    pub(crate) fn new(buffer: Vec<u8>, map_key: usize, desc_size: usize, desc_ver: u32) -> Self {
+    pub(crate) fn new(buffer: Vec<u8>, map_key: usize, desc_size: usize, desc_version: u32) -> Self {
         MemoryMap {
             buffer,
             map_key,
             desc_size,
-            desc_ver,
+            desc_version,
         }
     }
 
@@ -30,7 +30,7 @@ impl MemoryMap {
 
     /// Memory descriptor version
     pub fn desc_version(&self) -> u32 {
-        self.desc_ver
+        self.desc_version
     }
 
     /// Get a constant iterator of memory map entries
