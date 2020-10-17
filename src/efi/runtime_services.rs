@@ -15,12 +15,12 @@ impl RuntimeServices {
     ///
     /// Safe if boot services were terminated and `memory_map` is valid.
     pub unsafe fn set_virtual_address_map(&self, memory_map: &mut MemoryMap) -> Result<()> {
-        let length = memory_map.buffer.len() * memory_map.desc_size;
+        let length = memory_map.bytes().len() * memory_map.desc_size();
         status_to_result(((*self.0).set_virtual_address_map)(
             length,
-            memory_map.desc_size,
-            memory_map.desc_version,
-            &mut memory_map.buffer[0] as *mut _ as _,
+            memory_map.desc_size(),
+            memory_map.desc_version(),
+            memory_map.bytes_mut().as_mut_ptr() as *mut _,
         ))
     }
 }
