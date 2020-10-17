@@ -10,6 +10,8 @@ impl BootServices {
 
     /// Allocate `size` bytes of memory
     ///
+    /// Do not use this function for ordinary memory allocations. Use the global allocator instead.
+    ///
     /// # Safety
     ///
     /// Safe if `exit_boot_services` was not called.
@@ -25,6 +27,8 @@ impl BootServices {
 
     /// Frees memory allocated by `allocate_pool`
     ///
+    /// Do not use this function for ordinary memory allocations. Use the global allocator instead.
+    ///
     /// # Safety
     ///
     /// Safe if `exit_boot_services` was not called and `buffer` was allocated by `allocate_pool`.
@@ -33,6 +37,8 @@ impl BootServices {
     }
 
     /// Allocate `num` consecutive pages of physical memory
+    ///
+    /// Do not use this function for ordinary memory allocations. Use the global allocator instead.
     ///
     /// # Safety
     ///
@@ -55,6 +61,8 @@ impl BootServices {
 
     /// Free `num` consecutive pages of physical memory
     ///
+    /// Do not use this function for ordinary memory allocations. Use the global allocator instead.
+    ///
     /// # Safety
     ///
     /// Safe if `exit_boot_services` was not called and `memory` was allocated by `allocate_pages`.
@@ -63,6 +71,8 @@ impl BootServices {
     }
 
     /// Get the current memory map
+    ///
+    /// Do not use this function. Use `MemoryMap::get_current` instead.
     ///
     /// # Safety
     ///
@@ -86,6 +96,9 @@ impl BootServices {
 
     /// Get an array of handles that support a specific protocol
     ///
+    /// Do not use this function to locate protocol handles. Use `Protocol::locate_handles`
+    /// instead.
+    ///
     /// # Safety
     ///
     /// Safe if `exit_boot_services` was not called and passed pointer point to valid memory.
@@ -108,6 +121,8 @@ impl BootServices {
 
     /// Get a pointer to a protocol supported by the handle
     ///
+    /// Do not use this function to handle protocols. Use `Protocol::find_instances` instead.
+    ///
     /// # Safety
     ///
     /// Safe if `exit_boot_services` was not called and passed pointer point to valid memory.
@@ -126,6 +141,8 @@ impl BootServices {
     }
 
     /// Exit the boot services and take control of the machine
+    ///
+    /// Most of the safe interfaces of `efw` will not work after calling this function.
     ///
     /// # Safety
     ///
