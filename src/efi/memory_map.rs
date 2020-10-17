@@ -24,18 +24,18 @@ impl MemoryMap {
     }
 
     /// Get a constant iterator of memory map entries.
-    pub fn iter(&self) -> ConstMemoryMapIterator {
+    pub fn iter(&self) -> impl Iterator<Item = &bits::MemoryDescriptor> {
         ConstMemoryMapIterator::new(self)
     }
 
     /// Get a mutable iterator of memory map entries.
-    pub fn iter_mut(&mut self) -> MutMemoryMapIterator {
+    pub fn iter_mut(&mut self) -> impl Iterator<Item = &mut bits::MemoryDescriptor> {
         MutMemoryMapIterator::new(self)
     }
 }
 
 /// Constant iterator type for the `MemoryMap` struct.
-pub struct ConstMemoryMapIterator<'a> {
+struct ConstMemoryMapIterator<'a> {
     mmap: &'a MemoryMap,
     position: usize,
 }
@@ -66,7 +66,7 @@ impl<'a> core::iter::Iterator for ConstMemoryMapIterator<'a> {
 }
 
 /// Mutable iterator type for the `MemoryMap` struct.
-pub struct MutMemoryMapIterator<'a> {
+struct MutMemoryMapIterator<'a> {
     mmap: &'a mut MemoryMap,
     position: usize,
 }
