@@ -11,16 +11,23 @@ impl RuntimeServices {
     /// Announces virtual address mappings to EFI components so they can continue to work
     /// after page tables have been modified
     ///
+    /// Dont use this function. Use `MemoryMap::set_virtual_address_map` instead.
+    ///
     /// # Safety
     ///
     /// Safe if boot services were terminated and `memory_map` is valid.
-    pub unsafe fn set_virtual_address_map(&self, memory_map: &mut MemoryMap) -> Result<()> {
-        let length = memory_map.buffer.len() * memory_map.desc_size;
+    pub unsafe fn set_virtual_address_map(
+        &self,
+        size: usize,
+        desc_size: usize,
+        desc_version: u32,
+        buffer: *mut bits::MemoryDescriptor,
+    ) -> Result<()> {
         status_to_result(((*self.0).set_virtual_address_map)(
-            length,
-            memory_map.desc_size,
-            memory_map.desc_ver,
-            &mut memory_map.buffer[0] as *mut _ as _,
+            size,
+            desc_size,
+            desc_version,
+            buffer,
         ))
     }
 }

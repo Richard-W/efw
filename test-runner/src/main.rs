@@ -14,13 +14,7 @@ fn efw_main() {
     let text_output_instances = efw::efi::protocols::SimpleTextOutput::find_instances().unwrap();
     println!("Text Output Instances found: {:?}", text_output_instances.len());
 
-    let memory_map = unsafe {
-        efw::efi::SystemTable::get()
-            .boot_services()
-            .get_memory_map()
-            .unwrap()
-    };
-
+    let memory_map = efw::efi::MemoryMap::get_current().unwrap();
     println!("Memory map ({} entries)", memory_map.iter().count());
 
     let mut graphics_output_instances = efw::efi::protocols::GraphicsOutput::find_instances().unwrap();

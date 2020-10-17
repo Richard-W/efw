@@ -10,6 +10,8 @@ impl BootServices {
 
     /// Allocate `size` bytes of memory
     ///
+    /// Do not use this function for ordinary memory allocations. Use the global allocator instead.
+    ///
     /// # Safety
     ///
     /// Safe if `exit_boot_services` was not called.
@@ -25,6 +27,8 @@ impl BootServices {
 
     /// Frees memory allocated by `allocate_pool`
     ///
+    /// Do not use this function for ordinary memory allocations. Use the global allocator instead.
+    ///
     /// # Safety
     ///
     /// Safe if `exit_boot_services` was not called and `buffer` was allocated by `allocate_pool`.
@@ -33,6 +37,8 @@ impl BootServices {
     }
 
     /// Allocate `num` consecutive pages of physical memory
+    ///
+    /// Do not use this function for ordinary memory allocations. Use the global allocator instead.
     ///
     /// # Safety
     ///
@@ -55,6 +61,8 @@ impl BootServices {
 
     /// Free `num` consecutive pages of physical memory
     ///
+    /// Do not use this function for ordinary memory allocations. Use the global allocator instead.
+    ///
     /// # Safety
     ///
     /// Safe if `exit_boot_services` was not called and `memory` was allocated by `allocate_pages`.
@@ -64,40 +72,32 @@ impl BootServices {
 
     /// Get the current memory map
     ///
+    /// Do not use this function. Use `MemoryMap::get_current` instead.
+    ///
     /// # Safety
     ///
-    /// Safe if `exit_boot_services` was not called.
-    pub unsafe fn get_memory_map(&self) -> Result<MemoryMap> {
-        let mut buffer_size: usize = 0;
-        let mut map_key: usize = 0;
-        let mut desc_size: usize = 0;
-        let mut desc_ver: u32 = 0;
-        ((*self.0).get_memory_map)(
-            &mut buffer_size as _,
-            0 as _,
-            &mut map_key as _,
-            &mut desc_size as _,
-            &mut desc_ver as _,
-        );
-
-        // Account for the additional allocation
-        buffer_size += desc_size;
-
-        let mut buffer = Vec::new();
-        buffer.resize(buffer_size, 0);
-
+    /// Safe if `exit_boot_services` was not called and pointers refer to valid memory.
+    pub unsafe fn get_memory_map(
+        &self,
+        memory_map_size: *mut usize,
+        memory_map: *mut bits::MemoryDescriptor,
+        map_key: *mut usize,
+        desc_size: *mut usize,
+        desc_version: *mut u32,
+    ) -> Result<()> {
         status_to_result(((*self.0).get_memory_map)(
-            &mut buffer_size as _,
-            &mut buffer.as_mut_slice()[0] as *mut u8 as *mut _,
-            &mut map_key as _,
-            &mut desc_size as _,
-            &mut desc_ver as _,
-        ))?;
-
-        Ok(MemoryMap::new(buffer, map_key, desc_size, desc_ver))
+            memory_map_size,
+            memory_map,
+            map_key,
+            desc_size,
+            desc_version,
+        ))
     }
 
     /// Get an array of handles that support a specific protocol
+    ///
+    /// Do not use this function to locate protocol handles. Use `Protocol::locate_handles`
+    /// instead.
     ///
     /// # Safety
     ///
@@ -107,40 +107,21 @@ impl BootServices {
         search_type: bits::LocateSearchType,
         protocol: *mut bits::Guid,
         search_key: *mut core::ffi::c_void,
-    ) -> Result<Vec<Handle>> {
-        // Find out needed buffer size
-        let mut buffer_size = 0;
-        let null_status = ((*self.0).locate_handle)(
-            search_type,
-            protocol,
-            search_key,
-            &mut buffer_size as _,
-            0 as _,
-        );
-        if null_status == bits::Status::SUCCESS {
-            return Ok(vec![]);
-        }
-
-        // Create buffer
-        let mut vector: Vec<Handle> = Vec::new();
-        vector.resize(
-            buffer_size / core::mem::size_of::<Handle>(),
-            Handle::new(0 as _),
-        );
-        let buffer = &mut vector.as_mut_slice()[0] as *mut Handle as *mut bits::Handle;
-
-        // Perform the search
+        buffer_size: *mut usize,
+        buffer: *mut bits::Handle,
+    ) -> Result<()> {
         status_to_result(((*self.0).locate_handle)(
             search_type,
             protocol,
             search_key,
-            &mut buffer_size as _,
+            buffer_size,
             buffer,
-        ))?;
-        Ok(vector)
+        ))
     }
 
     /// Get a pointer to a protocol supported by the handle
+    ///
+    /// Do not use this function to handle protocols. Use `Protocol::find_instances` instead.
     ///
     /// # Safety
     ///
@@ -160,6 +141,8 @@ impl BootServices {
     }
 
     /// Exit the boot services and take control of the machine
+    ///
+    /// Most of the safe interfaces of `efw` will not work after calling this function.
     ///
     /// # Safety
     ///

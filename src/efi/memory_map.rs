@@ -1,21 +1,74 @@
 use super::*;
+use core::ptr;
 
 /// UEFI Memory Map container
 pub struct MemoryMap {
-    pub(crate) buffer: Vec<u8>,
-    pub(crate) map_key: usize,
-    pub(crate) desc_size: usize,
-    pub(crate) desc_ver: u32,
+    buffer: Vec<u8>,
+    map_key: usize,
+    desc_size: usize,
+    desc_version: u32,
 }
 
 impl MemoryMap {
-    pub(crate) fn new(buffer: Vec<u8>, map_key: usize, desc_size: usize, desc_ver: u32) -> Self {
-        MemoryMap {
+    /// Get the current memory map
+    pub fn get_current() -> Result<Self> {
+        let boot_services = SystemTable::get().boot_services();
+
+        let mut buffer_size: usize = 0;
+        let mut map_key: usize = 0;
+        let mut desc_size: usize = 0;
+        let mut desc_version: u32 = 0;
+
+        // Get required size of memory map buffer
+        unsafe {
+            boot_services
+                .get_memory_map(
+                    &mut buffer_size,
+                    ptr::null_mut(),
+                    &mut map_key,
+                    &mut desc_size,
+                    &mut desc_version,
+                )
+                .ok();
+        }
+        // Account for an additional allocation
+        buffer_size += desc_size;
+        // Allocate buffer
+        let mut buffer = vec![0u8; buffer_size];
+
+        // Actually get the memory map
+        unsafe {
+            boot_services.get_memory_map(
+                &mut buffer_size,
+                buffer.as_mut_ptr() as *mut _,
+                &mut map_key,
+                &mut desc_size,
+                &mut desc_version,
+            )?;
+        }
+        // We could shrink `buffer` now but that would invalidate the memory map we just got
+        Ok(MemoryMap {
             buffer,
             map_key,
             desc_size,
-            desc_ver,
-        }
+            desc_version,
+        })
+    }
+
+    /// Set the memory map as the virtual address map
+    ///
+    /// # Safety
+    ///
+    /// Safe when boot services have been terminated.
+    pub unsafe fn set_virtual_address_map(&self) -> Result<()> {
+        let runtime_services = SystemTable::get().runtime_services();
+        let bytes = self.bytes();
+        runtime_services.set_virtual_address_map(
+            bytes.len(),
+            self.desc_size(),
+            self.desc_version(),
+            bytes.as_ptr() as *mut _,
+        )
     }
 
     /// Key of the memory map
@@ -30,7 +83,17 @@ impl MemoryMap {
 
     /// Memory descriptor version
     pub fn desc_version(&self) -> u32 {
-        self.desc_ver
+        self.desc_version
+    }
+
+    /// Get the raw bytes of the memory map
+    pub fn bytes(&self) -> &[u8] {
+        self.buffer.as_slice()
+    }
+
+    /// Get the raw bytes of the memory map mutably
+    pub fn bytes_mut(&mut self) -> &mut [u8] {
+        self.buffer.as_mut_slice()
     }
 
     /// Get a constant iterator of memory map entries
