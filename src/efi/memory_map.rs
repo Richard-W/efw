@@ -10,6 +10,7 @@ pub struct MemoryMap {
 }
 
 impl MemoryMap {
+    /// Get the current memory map
     pub fn get_current() -> Result<Self> {
         let boot_services = SystemTable::get().boot_services();
 
@@ -52,6 +53,22 @@ impl MemoryMap {
             desc_size,
             desc_version,
         })
+    }
+
+    /// Set the memory map as the virtual address map
+    ///
+    /// # Safety
+    ///
+    /// Safe when boot services have been terminated.
+    pub unsafe fn set_virtual_address_map(&self) -> Result<()> {
+        let runtime_services = SystemTable::get().runtime_services();
+        let bytes = self.bytes();
+        runtime_services.set_virtual_address_map(
+            bytes.len(),
+            self.desc_size(),
+            self.desc_version(),
+            bytes.as_ptr() as *mut _,
+        )
     }
 
     /// Key of the memory map
