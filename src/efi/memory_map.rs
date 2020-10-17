@@ -23,6 +23,16 @@ impl MemoryMap {
         self.map_key
     }
 
+    /// Size of a memory descriptor
+    pub fn desc_size(&self) -> usize {
+        self.desc_size
+    }
+
+    /// Memory descriptor version
+    pub fn desc_version(&self) -> u32 {
+        self.desc_ver
+    }
+
     /// Get a constant iterator of memory map entries.
     pub fn iter(&self) -> impl Iterator<Item = &bits::MemoryDescriptor> {
         ConstMemoryMapIterator::new(self)
