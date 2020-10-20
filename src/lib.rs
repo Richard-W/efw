@@ -28,6 +28,7 @@ pub use alloc_crate::vec;
 /// Commonly used types, traits, and macros
 pub mod prelude {
     pub use crate::console::*;
+    pub use crate::{print, println, vec};
     // Based on experimental feature alloc_prelude
     pub use crate::borrow::ToOwned;
     pub use crate::boxed::Box;

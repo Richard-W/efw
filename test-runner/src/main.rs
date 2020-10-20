@@ -1,7 +1,8 @@
 #![no_std]
 #![no_main]
 
-#[macro_use] extern crate efw;
+extern crate efw;
+use efw::prelude::*;
 use efw::efi::Protocol;
 
 #[no_mangle]

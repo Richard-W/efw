@@ -1,4 +1,4 @@
-use super::*;
+use super::efi;
 
 struct StdOut;
 
@@ -35,5 +35,5 @@ macro_rules! print {
 #[macro_export]
 macro_rules! println {
     () => (print!("\r\n"));
-    ($($arg:tt)*) => (print!("{}\r\n", format_args!($($arg)*)));
+    ($($arg:tt)*) => ($crate::prelude::print!("{}\r\n", format_args!($($arg)*)));
 }
