@@ -12,6 +12,9 @@ pub use self::handle::*;
 mod memory_map;
 pub use self::memory_map::*;
 
+mod memory_type;
+pub use self::memory_type::*;
+
 mod protocol;
 pub use self::protocol::*;
 
