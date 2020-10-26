@@ -17,11 +17,12 @@ impl BootServices {
     /// Safe if `exit_boot_services` was not called.
     pub unsafe fn allocate_pool(
         &self,
-        pool_type: bits::MemoryType,
+        pool_type: u32,
         size: usize,
     ) -> Result<*mut u8> {
         let mut buffer: *mut core::ffi::c_void = 0 as _;
-        status_to_result(((*self.0).allocate_pool)(pool_type, size, &mut buffer as _))?;
+        let allocate_pool: fn(u32, usize, *mut *mut core::ffi::c_void) -> bits::Status = core::mem::transmute((*self.0).allocate_pool);
+        status_to_result(allocate_pool(pool_type, size, &mut buffer as _))?;
         Ok(buffer as _)
     }
 
@@ -46,11 +47,12 @@ impl BootServices {
     pub unsafe fn allocate_pages(
         &self,
         allocate_type: bits::AllocateType,
-        memory_type: bits::MemoryType,
+        memory_type: u32,
         num: usize,
     ) -> Result<*mut u8> {
         let mut result: bits::PhysicalAddress = 0;
-        status_to_result(((*self.0).allocate_pages)(
+        let allocate_pages: fn(bits::AllocateType, u32, usize, *mut bits::PhysicalAddress) -> bits::Status = core::mem::transmute((*self.0).allocate_pages);
+        status_to_result(allocate_pages(
             allocate_type,
             memory_type,
             num,
