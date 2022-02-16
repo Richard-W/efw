@@ -33,3 +33,4 @@ impl Handle {
 }
 
 unsafe impl core::marker::Send for Handle {}
+unsafe impl core::marker::Sync for Handle {}

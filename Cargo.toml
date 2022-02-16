@@ -11,6 +11,6 @@ repository = "https://github.com/richard-w/efw"
 path = "src/lib.rs"
 
 [dependencies]
-late-static = "0.3"
+late-static = "0.4"
 r-efi = "3.1"
 ucs2 = "0.3"
