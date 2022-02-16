@@ -133,7 +133,7 @@ impl BootServices {
     ) -> Result<*mut core::ffi::c_void> {
         let mut interface: *mut core::ffi::c_void = 0 as _;
         status_to_result(((*self.0).handle_protocol)(
-            handle.value() as bits::Handle,
+            handle.value(),
             protocol,
             &mut interface as _,
         ))?;

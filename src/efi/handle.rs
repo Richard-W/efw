@@ -21,7 +21,7 @@ impl Handle {
         Handle(handle)
     }
 
-    pub fn value(&self) -> usize {
+    pub fn value(&self) -> bits::Handle {
         self.0 as _
     }
 }
