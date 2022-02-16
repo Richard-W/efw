@@ -3,9 +3,6 @@
 #![feature(panic_info_message)]
 
 extern crate alloc as alloc_crate;
-extern crate late_static;
-extern crate r_efi;
-extern crate ucs2;
 
 // Private modules
 mod allocator;
