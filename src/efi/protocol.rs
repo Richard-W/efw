@@ -12,6 +12,7 @@ pub trait Protocol: core::marker::Sized {
     /// Safe if `ptr` points to the expected protocol.
     unsafe fn new(ptr: *mut core::ffi::c_void) -> Self;
 
+    /// Locate handles that support this protocol
     fn locate_handles() -> Result<Vec<Handle>> {
         let boot_services = SystemTable::get().boot_services();
         let mut guid = Self::PROTOCOL_GUID;
@@ -46,6 +47,7 @@ pub trait Protocol: core::marker::Sized {
         Ok(buffer)
     }
 
+    /// Locate handles that support this protocol and return protocol instances
     fn find_instances() -> Result<Vec<Self>> {
         let handles = Self::locate_handles()?;
         let instances = handles

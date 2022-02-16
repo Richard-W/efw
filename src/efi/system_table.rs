@@ -11,6 +11,7 @@ unsafe impl core::marker::Send for SystemTable {}
 static mut SYSTEM_TABLE: LateStatic<efi::SystemTable> = LateStatic::new();
 
 impl SystemTable {
+    /// Save a low-level system table pointer
     pub(crate) unsafe fn init(system_table: *mut bits::SystemTable) {
         LateStatic::assign(&SYSTEM_TABLE, SystemTable(system_table));
     }

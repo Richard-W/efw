@@ -40,6 +40,10 @@ extern "C" {
     fn efw_main();
 }
 
+/// Application entry point as defined by the x86_64-unknown-uefi target
+///
+/// Saves its arguments and calls into the `efw_main` symbol which should be
+/// defined by a dependee of this crate (typically an application).
 #[no_mangle]
 unsafe extern "C" fn efi_main(
     handle: efi::bits::Handle,
@@ -53,6 +57,7 @@ unsafe extern "C" fn efi_main(
     efi::bits::Status::SUCCESS
 }
 
+/// Panic handler that prints some location information about where the panic occured
 #[cfg(not(test))]
 #[panic_handler]
 fn panic_handler(panic_info: &core::panic::PanicInfo) -> ! {
