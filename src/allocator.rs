@@ -17,7 +17,7 @@ unsafe impl core::alloc::GlobalAlloc for Allocator {
         let size = align_worst_case_size(layout.size(), align);
         efi::SystemTable::get()
             .boot_services()
-            .allocate_pool(efi::bits::MemoryType::LoaderData, size)
+            .allocate_pool(efi::bits::LOADER_DATA, size)
             .map(|ptr| core::slice::from_raw_parts_mut(ptr, size))
             .map(|slice| align_slice(slice, align).as_mut_ptr())
             .unwrap_or(ptr::null_mut())

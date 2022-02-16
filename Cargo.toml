@@ -12,5 +12,5 @@ path = "src/lib.rs"
 
 [dependencies]
 late-static = "0.4"
-r-efi = "3.1"
+r-efi = "4.0"
 ucs2 = "0.3"

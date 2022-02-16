@@ -22,7 +22,7 @@ pub trait Protocol: core::marker::Sized {
         unsafe {
             boot_services
                 .locate_handle(
-                    bits::LocateSearchType::ByProtocol,
+                    bits::BY_PROTOCOL,
                     &mut guid,
                     ptr::null_mut(),
                     &mut buffer_size,
@@ -36,7 +36,7 @@ pub trait Protocol: core::marker::Sized {
         unsafe {
             boot_services
                 .locate_handle(
-                    bits::LocateSearchType::ByProtocol,
+                    bits::BY_PROTOCOL,
                     &mut guid,
                     ptr::null_mut(),
                     &mut buffer_size,
