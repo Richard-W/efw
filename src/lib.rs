@@ -15,6 +15,7 @@ pub use alloc_crate::boxed;
 pub use alloc_crate::collections;
 pub mod efi;
 pub use alloc_crate::fmt;
+pub use alloc_crate::format;
 pub use alloc_crate::rc;
 pub use alloc_crate::slice;
 pub use alloc_crate::str;
@@ -22,7 +23,6 @@ pub use alloc_crate::string;
 pub use alloc_crate::sync;
 pub use alloc_crate::task;
 pub use alloc_crate::vec;
-pub use alloc_crate::format;
 
 /// Commonly used types, traits, and macros
 pub mod prelude {
