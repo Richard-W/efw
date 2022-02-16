@@ -20,12 +20,14 @@ pub use alloc_crate::slice;
 pub use alloc_crate::str;
 pub use alloc_crate::string;
 pub use alloc_crate::sync;
+pub use alloc_crate::task;
 pub use alloc_crate::vec;
+pub use alloc_crate::format;
 
 /// Commonly used types, traits, and macros
 pub mod prelude {
     pub use crate::console::*;
-    pub use crate::{print, println, vec};
+    pub use crate::{format, print, println, vec};
     // Based on experimental feature alloc_prelude
     pub use crate::borrow::ToOwned;
     pub use crate::boxed::Box;
