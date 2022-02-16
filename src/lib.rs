@@ -3,9 +3,6 @@
 #![feature(panic_info_message)]
 
 extern crate alloc as alloc_crate;
-extern crate late_static;
-extern crate r_efi;
-extern crate ucs2;
 
 // Private modules
 mod allocator;
@@ -18,17 +15,19 @@ pub use alloc_crate::boxed;
 pub use alloc_crate::collections;
 pub mod efi;
 pub use alloc_crate::fmt;
+pub use alloc_crate::format;
 pub use alloc_crate::rc;
 pub use alloc_crate::slice;
 pub use alloc_crate::str;
 pub use alloc_crate::string;
 pub use alloc_crate::sync;
+pub use alloc_crate::task;
 pub use alloc_crate::vec;
 
 /// Commonly used types, traits, and macros
 pub mod prelude {
     pub use crate::console::*;
-    pub use crate::{print, println, vec};
+    pub use crate::{format, print, println, vec};
     // Based on experimental feature alloc_prelude
     pub use crate::borrow::ToOwned;
     pub use crate::boxed::Box;
@@ -41,6 +40,10 @@ extern "C" {
     fn efw_main();
 }
 
+/// Application entry point as defined by the x86_64-unknown-uefi target
+///
+/// Saves its arguments and calls into the `efw_main` symbol which should be
+/// defined by a dependee of this crate (typically an application).
 #[no_mangle]
 unsafe extern "C" fn efi_main(
     handle: efi::bits::Handle,
@@ -54,6 +57,7 @@ unsafe extern "C" fn efi_main(
     efi::bits::Status::SUCCESS
 }
 
+/// Panic handler that prints some location information about where the panic occured
 #[cfg(not(test))]
 #[panic_handler]
 fn panic_handler(panic_info: &core::panic::PanicInfo) -> ! {

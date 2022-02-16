@@ -4,6 +4,7 @@ use super::*;
 pub struct RuntimeServices(*mut bits::RuntimeServices);
 
 impl RuntimeServices {
+    /// Wrap low-level runtime service table
     pub(crate) fn new(runtime_services: *mut bits::RuntimeServices) -> Self {
         RuntimeServices(runtime_services)
     }

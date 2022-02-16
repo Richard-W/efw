@@ -1,7 +1,6 @@
 #![no_std]
 #![no_main]
 
-extern crate efw;
 use efw::prelude::*;
 use efw::efi::Protocol;
 
