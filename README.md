@@ -46,6 +46,14 @@ fn efw_main() {
 }
 ```
 
+To be able to use `cargo build` to build the applications you should add the following to `.cargo/config.toml`:
+
+```toml
+[unstable]
+build-std = ["core", "compiler_builtins", "alloc"]
+build-std-features = ["compiler-builtins-mem"]
+```
+
 ## Protocol support
 
 efw provides a set of predefined protocols that are needed for it to function
